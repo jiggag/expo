@@ -330,6 +330,12 @@ exports[`server-output express requests exported files has expected routes manif
       "routeKeys": {},
     },
     {
+      "file": "./workers/index.tsx",
+      "namedRegex": "^/workers(?:/)?$",
+      "page": "/workers/index",
+      "routeKeys": {},
+    },
+    {
       "file": "./loaders/static-helper.tsx",
       "loader": "_expo/loaders/loaders/static-helper.js",
       "namedRegex": "^/loaders/static\\-helper(?:/)?$",
@@ -861,6 +867,12 @@ exports[`server-output workerd requests exported files has expected routes manif
       "loader": "_expo/loaders/headers/blog.js",
       "namedRegex": "^/headers/blog(?:/)?$",
       "page": "/headers/blog",
+      "routeKeys": {},
+    },
+    {
+      "file": "./workers/index.tsx",
+      "namedRegex": "^/workers(?:/)?$",
+      "page": "/workers/index",
       "routeKeys": {},
     },
     {

@@ -141,8 +141,10 @@ describe('exports server', () => {
         ])
       );
 
-      // Check client bundle source maps
-      const clientMapFiles = mapFiles.filter((file) => file?.includes('client/'));
+      // Check the client entry bundle source map
+      const clientMapFiles = mapFiles.filter((file) =>
+        file?.includes('client/_expo/static/js/web/entry-')
+      );
       for (const file of clientMapFiles) {
         const sourceMap = JSON.parse(fs.readFileSync(path.join(server.outputDir, file!), 'utf8'));
         expect(sourceMap.version).toBe(3);
@@ -176,10 +178,10 @@ describe('exports server', () => {
       for (const file of clientJsFiles) {
         const jsBundle = fs.readFileSync(path.join(server.outputDir, file!), 'utf8');
         expect(jsBundle).toMatch(
-          /^\/\/\# sourceMappingURL=\/_expo\/static\/js\/web\/entry-.*\.map$/gm
+          /^\/\/\# sourceMappingURL=\/_expo\/static\/js\/web\/.*\.js\.map$/gm
         );
         const mapFile = jsBundle.match(
-          /^\/\/\# sourceMappingURL=(\/_expo\/static\/js\/web\/entry-.*\.map)$/m
+          /^\/\/\# sourceMappingURL=(\/_expo\/static\/js\/web\/.*\.js\.map)$/m
         )?.[1];
 
         // The mapFile path is relative to the web root (e.g., /_expo/...), but files are under client/

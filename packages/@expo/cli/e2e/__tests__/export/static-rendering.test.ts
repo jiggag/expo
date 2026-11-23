@@ -114,9 +114,15 @@ describe('exports static', () => {
     const files = findProjectFiles(outputDir);
 
     const mapFiles = files.filter((file) => file?.endsWith('.map'));
-    expect(mapFiles).toEqual([expect.stringMatching(/_expo\/static\/js\/web\/entry-.*\.map/)]);
+    expect(mapFiles).toEqual([
+      expect.stringMatching(/_expo\/static\/js\/web\/entry-.*\.map/),
+      // The `workers` route imports these modules asynchronously and starts a web worker.
+      expect.stringMatching(/_expo\/static\/js\/web\/other-.*\.map/),
+      expect.stringMatching(/_expo\/static\/js\/web\/worker-client-.*\.map/),
+      expect.stringMatching(/_expo\/static\/js\/web\/worker-one-.*\.map/),
+    ]);
 
-    for (const file of mapFiles) {
+    for (const file of mapFiles.filter((file) => file?.includes('/entry-'))) {
       // Ensure the bundle does not contain a source map reference
       const sourceMap = JSON.parse(fs.readFileSync(path.join(outputDir, file!), 'utf8'));
       expect(sourceMap.version).toBe(3);
@@ -149,11 +155,9 @@ describe('exports static', () => {
     for (const file of jsFiles) {
       // Ensure the bundle does not contain a source map reference
       const jsBundle = fs.readFileSync(path.join(outputDir, file!), 'utf8');
-      expect(jsBundle).toMatch(
-        /^\/\/\# sourceMappingURL=\/_expo\/static\/js\/web\/entry-.*\.map$/gm
-      );
+      expect(jsBundle).toMatch(/^\/\/\# sourceMappingURL=\/_expo\/static\/js\/web\/.*\.js\.map$/gm);
       const mapFile = jsBundle.match(
-        /^\/\/\# sourceMappingURL=(\/_expo\/static\/js\/web\/entry-.*\.map)$/m
+        /^\/\/\# sourceMappingURL=(\/_expo\/static\/js\/web\/.*\.js\.map)$/m
       )?.[1];
 
       expect(fs.existsSync(path.join(outputDir, mapFile!))).toBe(true);
