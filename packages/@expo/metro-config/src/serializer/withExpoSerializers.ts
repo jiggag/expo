@@ -12,7 +12,6 @@ import bundleToString from '@expo/metro/metro/lib/bundleToString';
 import { isJscSafeUrl, toNormalUrl } from 'jsc-safe-url';
 
 import { env } from '../env';
-import { findUnsupportedWorkerAsyncDependency } from './chunking/findUnsupportedWorkerAsyncDependency';
 import { stringToUUID } from './debugId';
 import {
   environmentVariableSerializerPlugin,
@@ -367,14 +366,7 @@ function getDefaultSerializer(
       customTransformOptions?.dom == null &&
       !options.dev &&
       !isLazyBundle;
-    // Unsupported async imports inside a worker switch this entire graph, including application
-    // chunks, to legacy. Workers with only synchronous dependencies remain supported.
-    // TODO: Support async imports inside workers, with separate module registries and one URL
-    // per worker entry, before removing this fallback.
-    const chunkingStrategy: ChunkingStrategy =
-      isGranularEligible && !findUnsupportedWorkerAsyncDependency(entryPoint, graph)
-        ? 'granular'
-        : 'legacy';
+    const chunkingStrategy: ChunkingStrategy = isGranularEligible ? 'granular' : 'legacy';
 
     const assets = await graphToSerialAssetsAsync(
       config,

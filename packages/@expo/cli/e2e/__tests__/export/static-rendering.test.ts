@@ -116,10 +116,13 @@ describe('exports static', () => {
     const mapFiles = files.filter((file) => file?.endsWith('.map'));
     expect(mapFiles).toEqual([
       expect.stringMatching(/_expo\/static\/js\/web\/entry-.*\.map/),
-      // The `workers` route imports these modules asynchronously and starts a web worker.
+      // The `workers` routes and their web workers import these modules asynchronously.
+      expect.stringMatching(/_expo\/static\/js\/web\/maybe-sync-target-.*\.map/),
       expect.stringMatching(/_expo\/static\/js\/web\/other-.*\.map/),
-      expect.stringMatching(/_expo\/static\/js\/web\/worker-client-.*\.map/),
+      expect.stringMatching(/_expo\/static\/js\/web\/prefetch-target-.*\.map/),
+      expect.stringMatching(/_expo\/static\/js\/web\/worker-async-.*\.map/),
       expect.stringMatching(/_expo\/static\/js\/web\/worker-one-.*\.map/),
+      expect.stringMatching(/_expo\/static\/js\/web\/worker-only-.*\.map/),
     ]);
 
     for (const file of mapFiles.filter((file) => file?.includes('/entry-'))) {

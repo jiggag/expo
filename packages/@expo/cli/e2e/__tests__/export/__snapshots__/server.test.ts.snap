@@ -406,6 +406,12 @@ exports[`server-output express requests exported files has expected routes manif
       "routeKeys": {},
     },
     {
+      "file": "./workers/async-imports.tsx",
+      "namedRegex": "^/workers/async\\-imports(?:/)?$",
+      "page": "/workers/async-imports",
+      "routeKeys": {},
+    },
+    {
       "file": "./api/checks/get-spread.tsx",
       "namedRegex": "^/api/checks/get\\-spread(?:/)?$",
       "page": "/api/checks/get-spread",
@@ -943,6 +949,12 @@ exports[`server-output workerd requests exported files has expected routes manif
       "file": "./api/checks/post-json.tsx",
       "namedRegex": "^/api/checks/post\\-json(?:/)?$",
       "page": "/api/checks/post-json",
+      "routeKeys": {},
+    },
+    {
+      "file": "./workers/async-imports.tsx",
+      "namedRegex": "^/workers/async\\-imports(?:/)?$",
+      "page": "/workers/async-imports",
       "routeKeys": {},
     },
     {
